@@ -1,0 +1,9 @@
+[Desktop Entry]
+Categories=
+Comment=Google Authenticator Desktop with Material Design 3, QR Scanner, and Master Password Vault
+Exec=google-authenticator
+StartupWMClass=google-authenticator
+Icon=google-authenticator
+Name=Google Authenticator
+Terminal=false
+Type=Application

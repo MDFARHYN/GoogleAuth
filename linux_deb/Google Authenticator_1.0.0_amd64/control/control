@@ -1,0 +1,9 @@
+Package: google-authenticator
+Version: 1.0.0
+Architecture: amd64
+Installed-Size: 9466
+Maintainer: Farhan
+Priority: optional
+Depends: libwebkit2gtk-4.1-0, libgtk-3-0
+Description: Google Authenticator Desktop with Material Design 3, QR Scanner, and Master Password Vault
+ (none)

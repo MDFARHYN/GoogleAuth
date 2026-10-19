@@ -36,6 +36,32 @@ Constantly switching between your computer and your smartphone just to check a 6
 
 ---
 
+## 🚀 Quick Install (No Build Required)
+
+Pre-compiled, ready-to-install binaries are provided directly in the repository so you can get started right away without needing Rust, Node.js, or any build tools installed:
+
+### 🐧 Linux (Ubuntu, Debian, Linux Mint)
+Pre-built `.deb` package is located in the [`linux_deb/`](linux_deb/) folder:
+* **Package**: `linux_deb/Google Authenticator_1.0.0_amd64.deb`
+* **Install via Terminal**:
+  ```bash
+  sudo dpkg -i "linux_deb/Google Authenticator_1.0.0_amd64.deb"
+  # Fix any missing dependencies if needed:
+  sudo apt-get install -f
+  ```
+* **Install via GUI**: Open your file manager, navigate to `linux_deb/`, and double-click `Google Authenticator_1.0.0_amd64.deb` to install through Software Center / GDebi.
+
+### 🪟 Windows (64-bit)
+Pre-built installers are located in the [`windows64EXE/`](windows64EXE/) folder:
+* **One-Click Setup (`.exe` - Recommended)**:
+  - **Path**: `windows64EXE/nsis/Google Authenticator_1.0.0_x64-setup.exe`
+  - Double-click to run the setup installer and install Google Authenticator on your PC.
+* **Windows Installer Package (`.msi`)**:
+  - **Path**: `windows64EXE/msi/Google Authenticator_1.0.0_x64_en-US.msi`
+  - Standard enterprise/Windows installer package.
+
+---
+
 ## 📲 Google Account Transfer (Exporting from Phone to Desktop)
 
 ### ⚠️ Crucial: Max 10 Accounts at a Time
@@ -72,7 +98,7 @@ Constantly switching between your computer and your smartphone just to check a 6
 
 ---
 
-## 📦 Building `.deb` and `.exe` Packages
+## 📦 Building from Source (Optional)
 
 ### 🐧 1. Building Linux Packages (`.deb` & `.AppImage`)
 
