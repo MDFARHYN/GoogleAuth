@@ -1,0 +1,22 @@
+END USER LICENSE AGREEMENT AND OPEN SOURCE DISCLAIMER
+
+Google Authenticator Desktop
+
+1. OPEN SOURCE SOFTWARE NOTICE
+Google Authenticator Desktop is free, open-source software provided under the MIT License. It is designed to provide local, decentralized two-factor authentication (2FA/TOTP) code generation directly on your personal computer.
+
+2. LOCAL ENCRYPTED VAULT & ZERO TELEMETRY
+This application operates completely offline and locally on your machine. All 2FA secret keys, provider accounts, and configuration data are stored in an encrypted local vault using AES-256-GCM authenticated encryption and Argon2id key derivation. No credentials, tokens, metadata, or telemetry are ever uploaded or transmitted to any remote cloud servers.
+
+3. DISCLAIMER OF WARRANTY & LIMITATION OF LIABILITY ("AS IS")
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY, AND NON-INFRINGEMENT.
+
+IN NO EVENT SHALL THE AUTHORS, DEVELOPERS, CONTRIBUTORS, OR COPYRIGHT HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, LOSS OF USE, DATA, REVENUE, PROFITS, OR BUSINESS INTERRUPTION; SYSTEM COMPROMISE; SECURITY BREACHES; UNAUTHORIZED ACCESS; OR HACKING) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+4. USER RESPONSIBILITY FOR CREDENTIAL SECURITY
+By installing and using this application, you expressly acknowledge and agree that:
+a) Master Password Protection: You are solely responsible for memorizing and safeguarding your Master Password. There is no back-door, password reset, or cloud recovery mechanism. If you forget your password, your vault cannot be recovered.
+b) Security & Malware: You are responsible for ensuring the security of your operating system, computer, and environment. The developers are not liable for any compromises caused by malware, keyloggers, spyware, device theft, or unauthorized access.
+c) Backups: You are advised to regularly create secure backups of your 2FA accounts using the application's built-in Backup & Export feature.
+
+If you do not agree to these terms, do not install or use this software.

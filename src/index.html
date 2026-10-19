@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Google Authenticator</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="main.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Drag & Drop Fullscreen Overlay -->
+    <div id="drop-overlay" class="drop-overlay">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+        <polyline points="21 15 16 10 5 21"></polyline>
+      </svg>
+      <h2>Drop QR Code Image Here</h2>
+      <p>Release to import your 2FA account or Google export</p>
+    </div>
+
+    <!-- Master Password Lock Screen -->
+    <div id="lock-screen" class="lock-screen">
+      <div class="lock-icon-circle">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2 id="lock-title">Unlock Vault</h2>
+      <p id="lock-subtitle" style="color: var(--md-sys-color-on-surface-variant); font-size: 0.9rem; text-align: center; max-width: 280px;">
+        Enter your master password to decrypt your 2FA security tokens.
+      </p>
+
+      <form id="lock-form" class="lock-card">
+        <input type="password" id="master-password-input" class="form-input" placeholder="Master Password" required autocomplete="current-password" autofocus />
+        <div id="setup-confirm-group" style="display: none; flex-direction: column; gap: 6px;">
+          <input type="password" id="confirm-password-input" class="form-input" placeholder="Confirm Password" autocomplete="new-password" />
+        </div>
+        <button type="submit" id="lock-btn" class="btn-primary" style="margin-top: 6px;">
+          Unlock
+        </button>
+      </form>
+    </div>
+
+    <!-- App Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand">
+          <svg class="brand-logo" viewBox="0 0 48 48" width="32" height="32">
+            <path fill="#4285F4" d="M24 4C12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20S35.05 4 24 4z"/>
+            <path fill="#fff" d="M24 12c-6.63 0-12 5.37-12 12s5.37 12 12 12 12-5.37 12-12-5.37-12-12-12zm0 4c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8zm-2 4v5.2l3.6 2.1 1-1.7-2.6-1.5V20H22z"/>
+          </svg>
+          <h1>Authenticator</h1>
+        </div>
+
+        <div class="header-actions">
+          <button id="theme-toggle" class="icon-btn" title="Toggle Dark/Light Mode">
+            <svg id="theme-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+
+          <button id="backup-btn" class="icon-btn" title="Backup & Export">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
+
+          <button id="lock-vault-btn" class="icon-btn" title="Lock Vault Now">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" id="search-input" placeholder="Search accounts..." autocomplete="off" />
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content-area">
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <h3>No accounts yet</h3>
+        <p>Add your 2FA accounts via QR image upload, drag & drop, or manual key entry.</p>
+        <div class="empty-actions">
+          <button id="empty-upload-btn" class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Upload QR Image
+          </button>
+          <button id="empty-manual-btn" class="btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Enter Setup Key
+          </button>
+        </div>
+      </div>
+
+      <!-- Account Cards List -->
+      <div id="account-list" class="account-list"></div>
+
+      <!-- Hidden file input for QR upload -->
+      <input type="file" id="qr-file-input" accept="image/*" style="display: none;" />
+    </main>
+
+    <!-- Floating Action Button (+) -->
+    <button id="fab-add" class="fab" title="Add Account">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+
+    <!-- Modal 1: Action Menu (FAB options) -->
+    <div id="modal-actions" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2>Add Account</h2>
+          <button class="icon-btn modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <div class="action-grid">
+          <button id="opt-upload" class="action-row">
+            <div class="action-row-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+            </div>
+            <div class="action-row-text">
+              <h4>Upload QR Image</h4>
+              <p>Select file, drag & drop, or paste (max 10 accounts per QR)</p>
+            </div>
+          </button>
+
+          <button id="opt-manual" class="action-row">
+            <div class="action-row-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+            </div>
+            <div class="action-row-text">
+              <h4>Enter a setup key</h4>
+              <p>Type account name and secret key manually</p>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Manual Entry Form -->
+    <div id="modal-manual" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2>Enter Account Details</h2>
+          <button class="icon-btn modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <form id="manual-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-group">
+            <label for="input-issuer">Service / Issuer</label>
+            <input type="text" id="input-issuer" class="form-input" placeholder="e.g. Google, GitHub, Binance" required />
+          </div>
+
+          <div class="form-group">
+            <label for="input-name">Account Name</label>
+            <input type="text" id="input-name" class="form-input" placeholder="e.g. username@gmail.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="input-secret">Your Key (Base32)</label>
+            <input type="text" id="input-secret" class="form-input mono" placeholder="JBSWY3DPEHPK3PXP" required autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label for="input-algo">Algorithm</label>
+            <select id="input-algo" class="form-input">
+              <option value="SHA1">SHA1 (Default)</option>
+              <option value="SHA256">SHA256</option>
+              <option value="SHA512">SHA512</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 10px; margin-top: 6px;">
+            <button type="button" class="btn-secondary modal-close" style="flex: 1;">Cancel</button>
+            <button type="submit" class="btn-primary" style="flex: 1;">Add Account</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal 4: Google Batch Import Confirmation -->
+    <!-- Modal 4: Batch Import Confirmation -->
+    <div id="modal-batch-import" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2>Import Accounts</h2>
+          <button class="icon-btn modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <p id="batch-desc" style="font-size: 0.92rem; color: var(--md-sys-color-on-surface); font-weight: 500; margin-bottom: 4px;">
+          Found accounts ready to import:
+        </p>
+
+        <p style="font-size: 0.8rem; color: var(--md-sys-color-on-surface-variant); margin-bottom: 12px;">
+          Note: At a time you can upload a maximum of 10 accounts per QR image.
+        </p>
+
+        <div id="batch-preview-list" style="max-height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--md-sys-color-surface-container-highest); border-radius: 12px; padding: 10px;"></div>
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+          <button type="button" class="btn-secondary modal-close" style="flex: 1;">Cancel</button>
+          <button type="button" id="confirm-batch-import-btn" class="btn-primary" style="flex: 1;">Import All</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 5: Backup & Export -->
+    <div id="modal-backup" class="modal-overlay">
+      <div class="modal-sheet">
+        <div class="modal-header">
+          <h2>Backup & Restore</h2>
+          <button class="icon-btn modal-close">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--md-sys-color-on-surface-variant);">
+          Export your 2FA accounts to safely back them up or transfer them to another device.
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <button id="export-json-btn" class="btn-primary">
+            Export JSON Backup
+          </button>
+          <button id="import-json-btn" class="btn-secondary">
+            Restore from JSON Backup
+          </button>
+          <input type="file" id="backup-file-input" accept=".json" style="display: none;" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+  </body>
+</html>

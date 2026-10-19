@@ -1,0 +1,28 @@
+{
+  "name": "google-authenticator-desktop",
+  "version": "1.0.0",
+  "description": "Google Authenticator Desktop for Ubuntu/Linux, Windows, and macOS with Material Design 3, QR Scanner, and Master Password Vault",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "build:deb": "tauri build --bundles deb",
+    "build:appimage": "tauri build --bundles appimage",
+    "tauri": "tauri"
+  },
+  "keywords": [
+    "google-authenticator",
+    "totp",
+    "2fa",
+    "mfa",
+    "tauri",
+    "rust",
+    "security"
+  ],
+  "author": "Farhan",
+  "license": "MIT",
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
